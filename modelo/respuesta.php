@@ -17,6 +17,7 @@ class respuesta {
         }
     }
 
+//lista todos los registros, no se usa
     public function Listar() {
         try {
             $result = array();
@@ -30,6 +31,7 @@ class respuesta {
         }
     }
 
+    //busca un registro por id
     public function Obtener($id) {
         try {
             $result = array();
@@ -43,6 +45,7 @@ class respuesta {
         }
     }
 
+    //borra registro por id
     public function Eliminar($id) {
         try {
             $stm = $this->pdo
@@ -54,6 +57,7 @@ class respuesta {
         }
     }
 
+    //recibe array con los campos a actualizar y el id del registro
     public function Actualizar($data) {
         try {
             $sql = "UPDATE respuestas SET 
@@ -79,6 +83,7 @@ class respuesta {
         }
     }
 
+    //grabar nuevo registro
     public function Registrar(respuesta $data) {
 
         //data contiene $respuesta desde controladorid
@@ -101,10 +106,11 @@ class respuesta {
         }
     }
 
+    //busqueda con argumento de una o mas palabras
     public function Buscar() {
         try {
             $busqueda = $_REQUEST['t'];
-                       
+
             $result = array();
             //separar la cadena en palabras
             $palabras = explode(' ', $busqueda);
@@ -116,9 +122,6 @@ class respuesta {
                     $sql .= " or ";
                 }
             }
-            
-           
-                
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
             $result = $stm->fetchAll(PDO::FETCH_OBJ);

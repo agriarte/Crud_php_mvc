@@ -10,7 +10,7 @@ class respuestaControlador {
         $this->model = new respuesta();
     }
 
-    public function Index() {
+    public function Inicio() {
         require_once 'vista/header.php';
         require_once 'vista/respuesta/respuesta.php';
     }
@@ -57,7 +57,6 @@ class respuestaControlador {
         $respuesta = $this->model->Buscar($datos);
         require_once 'vista/header.php';
         require_once 'vista/respuesta/respuesta.php';
-        //header('Location: index.php');
     }
 
 }

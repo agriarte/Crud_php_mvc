@@ -6,13 +6,13 @@ $controller = 'respuesta';
 // Todo esta lógica es el FrontController
 // Si no hay argumentos por URL lanza método Index de controller Respuesta
 //primer caso: no hay controller ni acción.
-//acción = Index para enseñar todos los registros
+//acción = Inicio. (carga vista Respuesta sin resultados
 if(!isset($_REQUEST['c']))
 {
     require_once "controlador/$controller.controlador.php";
     $controller = ucwords($controller) . 'Controlador';
     $controller = new $controller;
-    $controller->Index();    
+    $controller->Inicio();    
 }
 else
 {
