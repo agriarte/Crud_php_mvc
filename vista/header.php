@@ -17,9 +17,7 @@
 
         <title>El Taller de las Apps</title>
 
-        </style>
-    </head>
+    </style>
+</head>
 
-    <body class="bg-light">
-
-
+<body class="bg-light">

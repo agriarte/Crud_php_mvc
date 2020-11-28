@@ -59,6 +59,8 @@ class respuesta {
 
     //recibe array con los campos a actualizar y el id del registro
     public function Actualizar($data) {
+        session_start();
+        $_SESSION['info'] = ' Datos actualizados correctamente';
         try {
             $sql = "UPDATE respuestas SET 
                         TITULO      	= ?,
@@ -78,9 +80,16 @@ class respuesta {
                                 $data->id
                             )
             );
+            
+                    session_start();    
+        $_SESSION['info'] = ' Datos actualizados correctamente';
+        
+        return true;
+           
         } catch (Exception $e) {
             die($e->getMessage());
         }
+        
     }
 
     //grabar nuevo registro
@@ -104,6 +113,12 @@ class respuesta {
         } catch (Exception $e) {
             die($e->getMessage());
         }
+        
+        
+        session_start();    
+        $_SESSION['info'] = ' Datos grabados correctamente';
+        
+        return true;
     }
 
     //busqueda con argumento de una o mas palabras

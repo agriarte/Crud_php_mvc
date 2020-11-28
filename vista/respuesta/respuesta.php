@@ -28,8 +28,6 @@
         </div>
     </div>
 
-
-
     <!--busqueda varias palabras-->  
     <div class="row pt-5">
         <div class="col-12 col-sm-6 col-md-5 col-lg-4 mx-auto">
@@ -47,10 +45,34 @@
     </div>
 
 
+    <?php
+    session_start();
+    //$_SESSION['info']='demo text';
+    //print_r($_SESSION['info']);
+    if (isset($_SESSION['info'])) {
+        ?>
+
+        <div class="row">
+            <div id="mensajeAlert" class="alert alert-dismissible fade show alert-success col-xs-auto mx-auto" style="margin-top:20px;">
+                <i class="fas fa-clipboard-check"></i><?php echo $_SESSION['info']; ?>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            setTimeout(function () {
+
+                // Closing the alert 
+                $('#mensajeAlert').alert('close');
+            }, 5000);
+        </script> 
 
 
 
 
+        <?php
+        unset($_SESSION['info']);
+    }
+    ?>
     <?php
     error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
@@ -70,6 +92,12 @@
                         <div class="p-1">
                             <p class="card-text"><?php echo $r->COMENTARIO; ?></p>
                             <p class="card-text"><?php echo $r->FICHERO; ?></p>
+
+                            <?php
+                            if ($r->FICHERO != "") {
+                                echo "<img src='./upload/" . $r->FICHERO . "' class='img-fluid w-100 h-auto'  />";
+                            }
+                            ?>
                         </div>
                         <div class="card-footer">
                             <div class="d-flex justify-content-end">
@@ -86,11 +114,13 @@
     ?>
 </div>
 </tbody>
-</table> 
 
+<!-- JS, Popper.js, and jQuery -->
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
 </body>
-
-
-
 </html>

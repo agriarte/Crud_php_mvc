@@ -4,7 +4,7 @@ require_once 'modelo/Database.php';
 $controller = 'respuesta';
 
 // Todo esta lógica es el FrontController
-// Si no hay argumentos por URL lanza método Index de controller Respuesta
+// Si no hay argumentos por URL lanza método Inicio de controller Respuesta
 //primer caso: no hay controller ni acción.
 //acción = Inicio. (carga vista Respuesta sin resultados
 if(!isset($_REQUEST['c']))
