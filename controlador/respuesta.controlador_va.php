@@ -32,9 +32,7 @@ class respuestaControlador {
 
         $miId = $_REQUEST['id'];
 
-        print_r("FUERA miid= " . $miId ."<br>");
-        $ficheroActual = "echo /'<script>document.getElementById(/'file-chosen/').innerHTML; </script>/' ";
-        die("$ficheroActual");
+        print_r("FUERA miid= " . $miId);
 
 
         //Nuevo registro: no hay Id buscar el ultimo y incrementar en 1
@@ -47,23 +45,14 @@ class respuestaControlador {
             $miId = $ultimoId+1;
         }
 
-        //crear nombre único de fichero
-        $nombreunico = "id" . $miId . "_" . $_FILES['nombreFichero']['name'];
-        die("$nombreunico");
+        //crear nombre único de fichero si llega imagen BLOB
         //crear y guardar imagen en directorio ./upload
         if (!empty($_POST['imagen-copia'])) {
             //prefijo que concateno a las imagenes para que tengan nombre único, añado numid_
-            
+            $nombreunico = "id" . $miId . "_" . $_FILES['nombreFichero']['name'];
             file_put_contents('./upload/' . $nombreunico, file_get_contents($_POST['imagen-copia']));
         } else {
-            //todo:
-            //como no viene blob comprobar valor de REGISTRO con valor de idxx_nombrefichero
-            //si son iguales se mantiene nombre unico, si son diferentes file_put_contents
-            if ($this->model->Fichero != $nombreunico) {
-               $nombreunico = "id" . $miId . "_" . $_FILES['nombreFichero']['name']; 
-              file_put_contents('./upload/' . $nombreunico, file_get_contents($_POST['imagen-copia']));  
-            }
-            
+            $nombreunico = "";
         }
 
         //objeto respuesta almacena campos.

@@ -20,8 +20,8 @@ else
     // si vienen datos obtenemos el controlador que queremos cargar
     // y el método (acción)
     $controller = strtolower($_REQUEST['c']);
-    //$accion = isset($_REQUEST['a']) ? $_REQUEST['a'] : 'Index';
-    $accion = $_REQUEST['a'];
+    $accion = isset($_REQUEST['a']) ? $_REQUEST['a'] : 'Index';
+    //BORRAR $accion = $_REQUEST['a'];
     
    
     // Instanciamos el controlador
