@@ -82,7 +82,6 @@ class respuesta {
 
     //recibe array con los campos a actualizar y el id del registro
     public function Actualizar($data) {
-        session_start();
 
         try {
             $sql = "UPDATE respuestas SET 
@@ -168,7 +167,7 @@ class respuesta {
     }
 
     public function actualizaFichero_vacio() {
-        $id = $_REQUEST['i'];
+        $id = $_REQUEST['id'];
         try {
             $sql = "UPDATE respuestas SET 
                       

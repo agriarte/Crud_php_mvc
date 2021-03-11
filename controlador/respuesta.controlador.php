@@ -32,11 +32,11 @@ class respuestaControlador {
 
         $miId = $_REQUEST['id'];
 
-        print_r("FUERA miid= " . $miId ."<br>");
-        $ficheroActual = "echo /'<script>document.getElementById(/'file-chosen/').innerHTML; </script>/' ";
-        die("$ficheroActual");
+        $fichero = $_REQUEST['ficherodb'];
 
-
+        $imagenCopia = $_REQUEST['imagen-copia'];
+       
+        //ID
         //Nuevo registro: no hay Id buscar el ultimo y incrementar en 1
         //si hay id se usa el actual del registro
         //OJO! el if con isset() no funciona a pesar de que no tiene contenido si id no existe
@@ -44,27 +44,49 @@ class respuestaControlador {
             $miId = $_REQUEST['id'];
         } else {
             $ultimoId = $this->model->getUltimoId();
-            $miId = $ultimoId+1;
+            $miId = $ultimoId + 1;
         }
 
-        //crear nombre único de fichero
-        $nombreunico = "id" . $miId . "_" . $_FILES['nombreFichero']['name'];
-        die("$nombreunico");
-        //crear y guardar imagen en directorio ./upload
-        if (!empty($_POST['imagen-copia'])) {
-            //prefijo que concateno a las imagenes para que tengan nombre único, añado numid_
-            
-            file_put_contents('./upload/' . $nombreunico, file_get_contents($_POST['imagen-copia']));
-        } else {
-            //todo:
-            //como no viene blob comprobar valor de REGISTRO con valor de idxx_nombrefichero
-            //si son iguales se mantiene nombre unico, si son diferentes file_put_contents
-            if ($this->model->Fichero != $nombreunico) {
-               $nombreunico = "id" . $miId . "_" . $_FILES['nombreFichero']['name']; 
-              file_put_contents('./upload/' . $nombreunico, file_get_contents($_POST['imagen-copia']));  
+
+        //IMAGEN
+        //si pulsamos borrar llegan "".
+        //si ya existía una imagen (ficherodb) se debe borrar
+        if ($_REQUEST['cambio'] == "") {
+            //comprobar si existe imagen anterior para borrarla
+            if ($_REQUEST['ficherodb'] != "") {
+                $ficheroAntiguo = $_REQUEST['ficherodb'];
+                unlink('./upload/' . $ficheroAntiguo);
             }
-            
+            $respuesta->Fichero = "";
         }
+        //si no tocamos el campo imagen llega "igual"
+        if ($_REQUEST['cambio'] == "igual") {
+            // no cambiar valores
+            $respuesta->Fichero = $_REQUEST['ficherodb'];
+        }
+
+
+        //si no llega "" ni "igual" viene un blob con imagen
+        if (($_REQUEST['cambio'] != "igual") && ($_REQUEST['cambio'] != "")) {
+            //crear nombre único de fichero
+            $nombreunico = "id" . $miId . "_" . $_FILES['nombreFichero']['name'];
+
+            //crear y guardar imagen en directorio ./upload
+            if (!empty($_POST['imagen-copia'])) {
+                //prefijo que concateno a las imagenes para que tengan nombre único, añado numid_
+
+                file_put_contents('./upload/' . $nombreunico, file_get_contents($_POST['imagen-copia']));
+            } else {
+                //todo:
+                //como no viene blob comprobar valor de REGISTRO con valor de idxx_nombrefichero
+                //si son iguales se mantiene nombre unico, si son diferentes file_put_contents
+                if ($this->model->Fichero != $nombreunico) {
+                    $nombreunico = "id" . $miId . "_" . $_FILES['nombreFichero']['name'];
+                    file_put_contents('./upload/' . $nombreunico, file_get_contents($_POST['imagen-copia']));
+                }
+            }
+        }
+
 
         //objeto respuesta almacena campos.
         //Primeros atributos son del objeto
@@ -95,12 +117,13 @@ class respuestaControlador {
         require_once 'vista/header.php';
         require_once 'vista/respuesta/respuesta.php';
     }
-    
+
     public function updateArchivo() {
-         //request id trae el ID)
-        $miId = $_REQUEST['i'];
-       
+        //request id trae el ID)
+        $miId = $_REQUEST['id'];
+
         $this->model->actualizaFichero_vacio($miId);
+        header('Location: index.php');
     }
 
 }
