@@ -5,7 +5,6 @@
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 session_start();
 ?>
-
 <!--empieza navbar -->    
 <nav class="navbar navbar-expand fixed-top  bg-info navbar-dark sticky-top">
     <a class="navbar-brand" href="https://www.tallerdeapps.com/" target="_blank"><img src="./assets/img/logoTaller36.png"></a>
@@ -23,7 +22,7 @@ session_start();
 </nav><!-- fin de navbar-->
 
 <!-- principal -->
-<div class="container-fluid">
+<div class="container-fluid p-1">
     <!-- logo segun tamaño-->
     <div class="pt-5">
         <img class="d-none d-sm-none d-md-block mx-auto" src="./assets/img/pf250.png"/>
@@ -65,8 +64,10 @@ session_start();
             </div>
         </div>
     </form>
+
     <div class="row pb-2">
         <div class="col-12 col-sm-12 col-md-10 col-lg-8 col-xl-4 mx-auto">
+
             <div id="ayudaCard" class="card">
                 <div class="card-header p-0">
                     <div class="bg-dark text-white-50 d-flex">
@@ -83,47 +84,50 @@ session_start();
             </div>
         </div>
         <br>
-    </div>
 
-    <div id="snackbar"></div>
-    <?php
-// si llega info lanzamos snackbar
-//
-    if (isset($_SESSION['info'])) {
-        ?>
-        <script type="text/javascript">
-            let info = '<?php echo htmlspecialchars($_SESSION['info']); ?>';
-            document.getElementById("snackbar").innerHTML = '<i class=\"fas fa-clipboard-check\"></i><div>&nbsp;' + info + '</div>';
-
-            function mySnackBar() {
-                var x = document.getElementById("snackbar");
-                x.className = "show";
-                setTimeout(function () {
-                    x.className = x.className.replace("show", "");
-                }, 6000);
-            }
-
-
-            mySnackBar();
-        </script>
+        <div id="snackbar"></div>
 
         <?php
-        unset($_SESSION['info']);
-    }
-    ?>
-    <script>
-        function scrollToTargetAdjusted(el) {
-            var element = document.getElementById(el);
-            var headerOffset = 100;
-            var elementPosition = element.getBoundingClientRect().top;
-            var offsetPosition = elementPosition - headerOffset;
+// si llega info lanzamos snackbar
+//
+        if (isset($_SESSION['info'])) {
+            ?>
+            <script type="text/javascript">
+                let info = '<?php echo htmlspecialchars($_SESSION['info']); ?>';
+                document.getElementById("snackbar").innerHTML = '<i class=\"fas fa-clipboard-check\"></i><div>&nbsp;' + info + '</div>';
 
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: "smooth"
-            });
+                function mySnackBar() {
+                    var x = document.getElementById("snackbar");
+                    x.className = "show";
+                    setTimeout(function () {
+                        x.className = x.className.replace("show", "");
+                    }, 6000);
+                }
+
+
+                mySnackBar();
+            </script>
+
+            <?php
+            unset($_SESSION['info']);
         }
-    </script>
+        ?>
+        <script>
+            function scrollToTargetAdjusted(el) {
+                var element = document.getElementById(el);
+                var headerOffset = 100;
+                var elementPosition = element.getBoundingClientRect().top;
+                var offsetPosition = elementPosition - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+        </script>
+
+        <div id="resultados"></div>
+
 
         <?php
 //si form action envía BUSCAR, llamada al método Buscar del modelo con las palabras a buscar 
@@ -137,7 +141,7 @@ session_start();
                 ?>
                 <div id="resultados" class="row pb-2">
                     <div class="col-12 col-sm-12 col-md-10 col-lg-8 col-xl-4 mx-auto">
-                        <div class="alert alert-warning d-flex justify-content-center align-items-baseline" role="alert">
+                        <div class="alert alert-warning d-flex justify-content-center align-items-baseline text-justify " role="alert">
                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;Sin resultados
                         </div>
                     </div>
@@ -150,12 +154,12 @@ session_start();
                     if ($unaVez == 0) {
                         $unaVez = 1;
                         $numFilas = json_encode(sizeof($result));
-                        echo ' <div class="row"><div id="resultados" class="col-12 col-sm-12 col-md-10 col-lg-9 mx-auto small">Encontrados ' . $numFilas . ' resultados</div></div>';
+                        echo '<div id="resultados" class="col-12 col-sm-12 col-md-10 col-lg-9 mx-auto px-2 pb-0 small">Encontrados ' . $numFilas . ' resultados</div>';
                     }
                     ?>
                     <!-- Card -->
-                    <div class="row">
-                        <div class="col-12 col-sm-12 col-md-10 col-lg-9 mx-auto ">
+                    <div class="row m-0 pt-0">
+                        <div class="col-12 col-sm-12 col-md-10 col-lg-9 mx-auto p-1">
                             <div class="card border-secondary ">
                                 <div class="bg-secondary text-white">
                                     <div class="d-flex justify-content-end text-white-50"><div class="align-self-baseline" ><?php echo 'Id:' . $r->ID . '&nbsp;'; ?><i class="far fa-calendar-alt">&nbsp;</i></i><?php echo $r->FECHA; ?></div></div>
@@ -187,7 +191,7 @@ session_start();
             echo '<script>scrollToTargetAdjusted("resultados");</script>';
         }
         ?> 
-   
+    </div> <!-- /div resultados  -->
 </div> <!-- /div container  -->
 
 <!-- Modal -->
@@ -212,6 +216,8 @@ session_start();
     </div>
 </div>
 <!-- script Modal -->
+
+</div>
 <script>
     $('#confirm-delete').on('show.bs.modal', function (e) {
         $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));

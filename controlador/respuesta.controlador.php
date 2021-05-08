@@ -46,7 +46,8 @@ class respuestaControlador {
             $ultimoId = $this->model->getUltimoId();
             $miId = $ultimoId + 1;
         }
-
+        //será el nombre del fichero opcional. Si no hay =""
+        $nombreunico= $_REQUEST['ficherodb'];
 
         //IMAGEN
         //si pulsamos borrar llegan "".
@@ -61,8 +62,8 @@ class respuestaControlador {
         }
         //si no tocamos el campo imagen llega "igual"
         if ($_REQUEST['cambio'] == "igual") {
-            // no cambiar valores
-            $respuesta->Fichero = $_REQUEST['ficherodb'];
+            // no cambiar valores. Linea redundante. La dejo por claridad
+            $nombreunico =  $_REQUEST['ficherodb'];
         }
 
 
@@ -111,8 +112,6 @@ class respuestaControlador {
     public function Buscar() {
 
         $datos = $_REQUEST['t'] ? $_REQUEST['t'] : "";
-
-
         $respuesta = $this->model->Buscar($datos);
         require_once 'vista/header.php';
         require_once 'vista/respuesta/respuesta.php';

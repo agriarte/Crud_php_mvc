@@ -24,29 +24,40 @@
                 console.log("BorrarImagen()")
                 //alert de confirmacion
                 if (confirm("¿Borrar imagen? Alerta, está operación no se puede deshacer")) {
-                   document.getElementById('output').src = "";
+                    document.getElementById('output').src = "";
                     //ocultar boton borrar imagen
                     //document.getElementById('botonBorrarImagen').style.visibility = 'hidden';
                     document.getElementById('cambioImagen').value = "";
-                    document.getElementById('file-chosen').textContent = "(se admite jpg, png o gif)";
-                    document.getElementById('msjCambiarImg').textContent = "Puedes subir una imagen";
+                    document.getElementById('file-chosen').textContent = "(no hay imagen)";
+                    document.getElementById('msjCambiarImg').textContent = "Se admiten jpg, gif, png o directamente de la cámara";
                 }
             }
+
+            //evitar submit form al pulsar enter
+            window.addEventListener('keydown', function (e) {
+                if (e.keyIdentifier == 'U+000A' || e.keyIdentifier == 'Enter' || e.keyCode == 13) {
+                    if (e.target.nodeName == 'INPUT' && e.target.type == 'text') {
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+            }, true);
         </script>
 
         <!--empieza navbar -->    
         <nav class="navbar navbar-expand fixed-top  bg-info navbar-dark sticky-top">
-            <a class="navbar-brand" href="https://www.tallerdeapps.com/" target="_blank"><img src="./assets/img/logo36.png"></a>
+            <a class="navbar-brand" href="https://www.tallerdeapps.com/" target="_blank"><img src="./assets/img/logoTaller36.png"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="https://www.tallerdeapps.com/" target="_blank">El taller de las Apps</a>
+                    <!-- vacio de momento -->
                 </li>
             </ul>
-            <a class="btn btn-outline-dark text-white-50 btn-xs" href="?c=respuesta&a=Crud"><i class="far fa-file-alt"></i></i>  Crear Respuesta</a>
+            <a class="btn btn-outline-dark text-white-50 btn-xs" href="?c=respuesta&a=Crud"><i class="far fa-file-alt"></i></i>  Nuevo Tema</a>
         </nav><!-- fin de navbar-->
 
         <div class="container-fluid ">
@@ -78,14 +89,16 @@
 
                                 <div class="form-group">
                                     <label>Título</label>
-                                    <input type="text" name="titulo" value="<?php echo $respuesta->TITULO; ?>" class="form-control" placeholder="Introduce título" required>
+                                    <input type="text" name="titulo" value="<?php echo $respuesta->TITULO; ?>" class="form-control p-1" placeholder="Introduce título" required>
                                 </div>
                             </div>
                             <div class="p-1">
                                 <div class="form-group">
                                     <label>Comentario</label>
-                                    <input id="comentarioId" type="text" name="comentario" value="<?php echo $respuesta->COMENTARIO; ?>" class="form-control" placeholder="Introduce comentario" required>
+                                    <!-- <input id="comentarioId" type="text" name="comentario" rows="7" value="<?php echo $respuesta->COMENTARIO; ?>" class="form-control" placeholder="Introduce comentario" required> -->
+                                    <textarea class="form-control p-1" id="comentarioId" name="comentario" placeholder="Introduce comentario" rows="7" required><?php echo $respuesta->COMENTARIO; ?></textarea>
                                 </div>
+
                             </div>
                             <div class="p-1 bg-secondary text-white">
                                 <label>Imagen (opcional)</label>
@@ -94,65 +107,30 @@
                                     <script>
                                         /* valor en bbdd de fichero.  */
                                         let ficheroddbb = <?= json_encode($respuesta->FICHERO) ?>;
-                                        if (ficheroddbb === '') {
+                                        if (ficheroddbb === '' || ficheroddbb === null) {
                                             document.getElementById("divBotonera").innerHTML =
-                                                    '<div id="msjCambiarImg">Puedes subir una imagen</div>' +
-                                                   '<input type="file" id="actual-btn" hidden name="nombreFichero"/>' +
-                                                    '<label class="btn btn-sm btn-dark m-1" for="actual-btn"><i class="fas fa-camera"></i>&nbsp;Buscar imagen</label>' +
-                                                    '<span class="m-1" id="file-chosen" name="ficheroseleccionado">(se admite jpg, png o gif)</span>' +
+                                                    '<div id="msjCambiarImg">Se admiten jpg, gif, png o directamente de la cámara</div>' +
+                                                    '<input type="file" id="actual-btn" hidden name="nombreFichero"/>' +
+                                                    '<label class="btn btn-sm btn-dark" for="actual-btn"><i class="fas fa-camera"></i>&nbsp;Buscar imagen</label>' +
+                                                    '<span class="m-1" id="file-chosen" name="ficheroseleccionado">(no hay imagen)</span>' +
                                                     '<input type="hidden" id="imagen-temp" name="imagen-copia">' +
-                                                    '<input id="botonBorrarImagen" type="button" class="btn btn-sm btn-dark m-1 text-white-50" value="Borrar imagen actual" onclick="BorrarImagen();">' +
+                                                    '<input id="botonBorrarImagen" type="button" class="btn btn-sm btn-dark" value="Borrar imagen actual" onclick="BorrarImagen();">' +
                                                     '<img id="output" src="" class="img-fluid w-100 h-auto"/>';
                                         } else {
                                             let texto = "Si quieres cambiar la imagen actual: <b>" + ficheroddbb + "</b> selecciona una nueva";
                                             document.getElementById("divBotonera").innerHTML =
                                                     '<div id="msjCambiarImg">' + texto + '</div>' +
                                                     '<input type="file" id="actual-btn" hidden name="nombreFichero"/>' +
-                                                    '<label class="btn btn-sm btn-dark m-1" for="actual-btn"><i class="fas fa-camera"></i>&nbsp;Buscar imagen</label>' +
+                                                    '<label class="btn btn-sm btn-dark " for="actual-btn"><i class="fas fa-camera"></i>&nbsp;Buscar imagen</label>' +
                                                     '<span class="m-1" id="file-chosen" name="ficheroseleccionado">' + ficheroddbb + '</span>' +
                                                     '<input type="hidden" id="imagen-temp" name="imagen-copia">' +
-                                                    '<input id="botonBorrarImagen" type="button" class="btn btn-sm btn-dark m-1 text-white-50" value="Borrar imagen actual" onclick="BorrarImagen();">' +
+                                                    '<input id="botonBorrarImagen" type="button" class="btn btn-sm btn-dark " value="Borrar imagen actual" onclick="BorrarImagen();">' +
                                                     '<img id="output" src="./upload/' + ficheroddbb + '" class="img-fluid w-100 h-auto"/>';
 
                                         }
 
                                     </script>
-<?php
-if ($respuesta->FICHERO == "") {
-    //al entrar a la vista editar caso 1 no hay foto
-    //se muestra un mensaje de texto para entrar una foto, botonCargarImagen visible, botonBorrarImagen oculto, imagen en blanco
-    //echo "<div id='msjCambiarImg'>**Puedes subir una imagen</div>";
-    //<!-- actual upload which is hidden -->
-    //echo"<input type='file' id='actual-btn' hidden name='nombreFichero'/>";
-    //<!-- our custom upload button -->
-    //echo "<label id='customBotonUpload' class='btn btn-sm btn-dark m-1' for='actual-btn'><i class='fas fa-camera'></i>&nbsp;Buscar imagen</label>";
-    //<!-- name of file chosen -->
-    //echo "<span class='m-1' id='file-chosen' name='ficheroseleccionado'>(se admite jpg, png o gif)</span>";
-    // <!-- oculto, sirve para copiar blob -->
-    //echo "<input type='hidden' id='imagen-temp' name='imagen-copia'>";
-    // hueco para imagen en blanco
-    //echo "<img id='output' class='img-fluid w-100 h-auto'/>";
-} else {
 
-    //caso 2, hay imagen en registro
-    //mostrar otro texto, botonBorrarImagen visible, botonCargarImagen oculto, mostrar imagen,
-    //mensaje cambiar imagen
-    //echo "<div id='msjCambiarImg'>Si quieres cambiar la imagen actual: <b>" . $respuesta->FICHERO . "</b> selecciona una nueva</div>";
-    //conjunto inputs file html
-    //<!-- actual upload which is hidden -->
-    //echo"<input type='file' id='actual-btn' hidden name='nombreFichero'/>";
-    //<!-- our custom upload button -->
-    //echo "<label class='btn btn-sm btn-dark m-1' for='actual-btn'><i class='fas fa-camera'></i>&nbsp;Buscar imagen</label>";
-    //<!-- name of file chosen -->
-    //echo "<span class='m-1' id='file-chosen' name='ficheroseleccionado'>$respuesta->FICHERO</span>";
-    // <!-- oculto, sirve para copiar blob -->
-    //echo "<input type='hidden' id='imagen-temp' name='imagen-copia'>";
-    //boton borrar imagen
-    //echo "<input id='botonBorrarImagen' type='button' class='btn btn-sm btn-dark m-1 text-white-50' value='Borrar imagen actual' onclick='BorrarImagen();'>";
-    //imagen 
-    //echo "<img id='output' src='./upload/" . $respuesta->FICHERO . "' class='img-fluid w-100 h-auto'/>";
-}
-?>
                                 </div>
                                 <div id="status"></div>
                             </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-        <html lang="es">
+<html lang="es">
 
     <head>
         <meta charset="utf-8">
@@ -11,6 +11,7 @@
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
         <!-- JS, Popper.js, and jQuery -->
         <!-- Optional JavaScript -->
@@ -25,7 +26,7 @@
             #snackbar {
                 visibility: hidden;
                 min-width: 250px;
-                margin-left: -125px;
+                margin-left: -150px;
                 background-color: #d4edda;
                 color: #155724;
                 text-align: center;
@@ -66,7 +67,31 @@
                 to {bottom: 0; opacity: 0;}
             }
 
+            #miPreformatText {
+                background: #eaeffa;
+                display: block;
+                font-family: arial;
+                font-size:18px;
+                margin-bottom: 0;
+                margin-top: 0;
+                border: 1px solid grey;
+                padding: 2px;
 
+                white-space: pre-wrap; /* CSS3 */
+                white-space: -moz-pre-wrap; /* Mozilla, post millennium */
+                white-space: -pre-wrap; /* Opera 4-6 */
+                white-space: -o-pre-wrap; /* Opera 7 */
+                word-wrap: break-word; /* Internet Explorer 5.5+ */
+            } 
+
+            .palabrasPq{
+                padding:1px;
+                color:#222;
+                font-family:corbel,sans-serif;
+                font-size: 14px;
+                margin:1 px;
+            }
+            input{display:table-cell;vertical-align:middle}
         </style>
     </head>
 

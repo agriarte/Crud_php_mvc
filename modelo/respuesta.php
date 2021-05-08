@@ -145,6 +145,7 @@ class respuesta {
     public function Buscar() {
         try {
             $busqueda = $_REQUEST['t'];
+            $operadorLogico = $_REQUEST['operador_logico'];
 
             $result = array();
             //separar la cadena en palabras
@@ -154,12 +155,15 @@ class respuesta {
             for ($i = 0; $i < count($palabras); $i++) {
                 $sql .= " TITULO like '%" . $palabras[$i] . "%' ";
                 if ($i < count($palabras) - 1) {
-                    $sql .= " or ";
+                    $sql .= $operadorLogico;
                 }
             }
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
             $result = $stm->fetchAll(PDO::FETCH_OBJ);
+            
+            //$numFilas = json_encode(sizeof($result));
+            
             return $result;
         } catch (Exception $e) {
             die($e->getMessage());
@@ -182,6 +186,19 @@ class respuesta {
             session_start();
             $_SESSION['info'] = ' imagen borrada BBDD';
             header('index.php');
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function getNumeroRows() {
+        try {
+
+            $stm = $this->pdo
+                    ->prepare("SELECT COUNT(*) FROM respuestas;");
+            $stm->execute();
+            $count = $stm->fetch(PDO::FETCH_NUM); // Return array indexed by column number
+            return reset($count); // Resets array cursor and returns first value (the count)
         } catch (Exception $e) {
             die($e->getMessage());
         }
